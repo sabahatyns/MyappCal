@@ -1,12 +1,31 @@
-import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from './screens/splash';
 import Calculator from './screens/calculator';
+import React, { useEffect } from 'react';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import { getToken, notificationListenr,requestUserPermission } from './src/utils/pushnotification';
+
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function Mycal() {
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
+
+//notifications
+useEffect(() => {
+  requestUserPermission() ;
+  notificationListenr() ;
+  getToken() ;
+}, []);
   return (
     <NavigationContainer >
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Welcome'>
@@ -19,8 +38,8 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  )
-}
+  )}
+
 
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';

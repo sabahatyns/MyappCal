@@ -2,6 +2,7 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
@@ -125,6 +126,12 @@ export default function App() {
 
   },
   ]
+  const Item = ({phone}) => (
+    <View >
+      <Text>{phone}</Text>
+    </View>
+  );
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -141,6 +148,12 @@ export default function App() {
               console.log('---SectionListClickCallback--:',item,index, section)
             }}
             otherAlphabet="#"
+            renderItem={({item}) => (
+<Text>{item.phone}</Text>
+            )
+
+            }
+          
         />
       </View>
     </SafeAreaView>
